@@ -5,7 +5,7 @@ export const typeDefs = `
     type Artist {
         id: ID!
         artistname: String!
-        concerts: [Concert]
+        concerts: [Concert]!
     }
 
     type Concert {
@@ -14,14 +14,14 @@ export const typeDefs = `
         city: String!
         date: String!
         price: Float!
-        artist: Artist
+        artist: Artist!
         genres: [Genre]
     }
 
     type Genre {
         id: ID!
         label: String!
-        concerts: [ConcertGenre]
+        concerts: [ConcertGenre]!
     }
 
     type ConcertGenre {
@@ -57,10 +57,12 @@ export const typeDefs = `
 export const resolvers = {
     Query: {
         artists: async() => {
-            return context.prisma.artist.findMany();
+            return context.prisma.artist.findMany({});
         },
         concerts: async() => {
-            return context.prisma.concert.findMany();
+            return context.prisma.concert.findMany({
+                include: { artist: true }
+            });
         },
         genres: async() => {
             return context.prisma.genre.findMany();
@@ -72,7 +74,8 @@ export const resolvers = {
         },
         concert: async(_: any, { id }: any) => {
             return context.prisma.concert.findUnique({
-                where: { id }
+                where: { id },
+                include: { artist: true },
             });
         },
         genre: async(_: any, { id }: any) => {

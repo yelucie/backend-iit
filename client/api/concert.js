@@ -44,7 +44,7 @@ const createQuery = (concert) => `
             title: "${concert.title}"
             city: "${concert.city}"
             date: "${concert.date}"
-            price: "${concert.price}"
+            price: ${concert.price}
             artistid: "${concert.artistid}"
         ) {
             id
@@ -73,7 +73,7 @@ const updateQuery = (concert) => `
             title: "${concert.title}"
             city: "${concert.city}"
             date: "${concert.date}"
-            price: "${concert.price}"
+            price: ${concert.price}
             artistid: "${concert.artistid}"
         ) {
             id
@@ -132,24 +132,24 @@ const api = {
       throw error;
     }
   },
-  create: async (concert, genreid) => {
+  create: async (concert) => {
+    console.log(createQuery(concert));
     try {
       const response = await fetch(
         graphqlEndpoint,
-        requestOptions(createQuery(concert), addGenreQuery(concert.id, genreid))
+        requestOptions(createQuery(concert))
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      console.log(data);
       return data.data.createConcert;
     } catch (error) {
       throw error;
     }
   },
   deleteById: async (id) => {
-    console.log("deleteById", id);
-    console.log(deleteByIdQuery(id));
     try {
       const response = await fetch(
         graphqlEndpoint,
@@ -162,11 +162,12 @@ const api = {
       throw error;
     }
   },
-  update: async (concert, genreid) => {
+  update: async (concert) => {
+    console.log(updateQuery(concert));
     try {
       const response = await fetch(
         graphqlEndpoint,
-        requestOptions(updateQuery(book), addGenreQuery(concert.id, genreid))
+        requestOptions(updateQuery(concert))
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");

@@ -13,6 +13,9 @@ block content
               dt(class="text-sm font-medium leading-6 text-gray-900") Title
               dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.title}
             div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
+              dt(class="text-sm font-medium leading-6 text-gray-900") Artist
+              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.artist.artistname}
+            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
               dt(class="text-sm font-medium leading-6 text-gray-900") City
               dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.city}
             div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
@@ -25,9 +28,6 @@ block content
                   | $#{concert.price.toFixed(2)}
                 else
                   | Free
-            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
-              dt(class="text-sm font-medium leading-6 text-gray-900") Artist
-              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.artist}
         if token !== undefined && token !== null && token !== ""
           div(class="flex justify-end flex-shrink-0 mt-10")
             button(type="button" class="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50")

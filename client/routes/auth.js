@@ -15,6 +15,9 @@ router.post("/login", async function (req, res, next) {
   const admin = await Admin.findOne({ email: req.body.email }).exec();
   if (!admin) return res.redirect("/login");
 
+  const isPasswordMatch = await admin.matchPassword(req.body.password);
+  if (!isPasswordMatch) return res.redirect("/login");
+
   const token = jwt.sign({ email: req.body.email }, jwtAccessSecret, {
     expiresIn: "15m",
   });
@@ -24,9 +27,9 @@ router.post("/login", async function (req, res, next) {
   });
 
   const navigationHistory = req.session.navigationHistory || [];
-  let previousPage = '/';
+  let previousPage = "/";
   for (let i = navigationHistory.length - 1; i >= 0; i--) {
-    if (navigationHistory[i] !== '/login') {
+    if (navigationHistory[i] !== "/login") {
       previousPage = navigationHistory[i];
       break;
     }
