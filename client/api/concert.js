@@ -6,8 +6,7 @@ const findAllQuery = `
             id
             title
             city
-            month
-            year
+            date
             price
             artist {
                 id
@@ -26,8 +25,7 @@ const findByIdQuery = (id) => `
             id
             title
             city
-            month
-            year
+            date
             price
             artist {
                 id
@@ -45,16 +43,14 @@ const createQuery = (concert) => `
         createConcert(
             title: ${concert.title}
             city: ${concert.city}
-            month: ${concert.month}
-            year: ${concert.year}
+            date: ${concert.date}
             price: ${concert.price}
             artistid: ${concert.artistid}
         ) {
             id
             title
             city
-            month
-            year
+            date
             price
         }
     }`;
@@ -65,8 +61,7 @@ const deleteByIdQuery = (id) => `
             id
             title
             city
-            month
-            year
+            date
             price
         }
     }`;
@@ -77,16 +72,14 @@ const updateQuery = (concert) => `
             id: ${concert.id}
             title: ${concert.title}
             city: ${concert.city}
-            month: ${concert.month}
-            year: ${concert.year}
+            date: ${concert.date}
             price: ${concert.price}
             artistid: ${concert.artistid}
         ) {
             id
             title
             city
-            month
-            year
+            date
             price
         }
     }`;
@@ -135,22 +128,22 @@ const api = {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      return data.data.book;
+      return data.data.concert;
     } catch (error) {
       throw error;
     }
   },
-  create: async (book) => {
+  create: async (concert, genreid) => {
     try {
       const response = await fetch(
         graphqlEndpoint,
-        requestOptions(createQuery(book))
+        requestOptions(createQuery(concert), addGenreQuery(concert.id, genreid))
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      return data.data.createBook;
+      return data.data.createConcert;
     } catch (error) {
       throw error;
     }
@@ -168,17 +161,17 @@ const api = {
       throw error;
     }
   },
-  update: async (book) => {
+  update: async (concert, genreid) => {
     try {
       const response = await fetch(
         graphqlEndpoint,
-        requestOptions(updateQuery(book))
+        requestOptions(updateQuery(book), addGenreQuery(concert.id, genreid))
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      return data.data.updateBook;
+      return data.data.updateConcert;
     } catch (error) {
       throw error;
     }
