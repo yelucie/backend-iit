@@ -23,22 +23,22 @@ router.post("/login", async function (req, res, next) {
     secure: true,
     maxAge: 24 * 60 * 60 * 1000,
   });
-  res.send("Logged in");
+  res.send(`Psst, your current token is ${token}`);
 });
 
 /* GET logout. */
 router.get("/logout", function (req, res, next) {
   res.clearCookie("jwt");
-  res.send("Logged out");
+  res.redirect("/login");
 });
 
-/* GET register form. */
-router.get("/register", function (req, res, next) {
-  res.render("register");
+/* GET signup form. */
+router.get("/signup", function (req, res, next) {
+  res.render("signup");
 });
 
-/* POST register form. */
-router.post("/register", async function (req, res, next) {
+/* POST signup form. */
+router.post("/signup", async function (req, res, next) {
   const admin = new Admin({
     firstname: req.body.firstname,
     lastname: req.body.lastname,

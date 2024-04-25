@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  div(class="px-6 py-24 bg-white isolate sm:py-32 lg:px-8")
+    div(class="text-center")
+      h2(class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl") #{concert.title}
+      p(class="mt-6 text-lg leading-8 text-gray-600") A cat fact: #{catFact}
+    div(class="max-w-xl mx-auto mt-16 sm:mt-20")
+      div(class="py-12 mx-auto max-w-7xl sm:px-6 lg:px-8")
+        div(class="border-t border-gray-100")
+          dl(class="divide-y divide-gray-100")
+            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
+              dt(class="text-sm font-medium leading-6 text-gray-900") Title
+              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.title}
+            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
+              dt(class="text-sm font-medium leading-6 text-gray-900") City
+              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.city}
+            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
+              dt(class="text-sm font-medium leading-6 text-gray-900") Date
+              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.date}
+            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
+              dt(class="text-sm font-medium leading-6 text-gray-900") Price
+              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0")
+                if concert.price !== undefined && concert.price !== null && concert.price !== 0
+                  | $#{concert.price.toFixed(2)}
+                else
+                  | Free
+            div(class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0")
+              dt(class="text-sm font-medium leading-6 text-gray-900") Artist
+              dd(class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0") #{concert.artist}
+        div(class="flex justify-end flex-shrink-0 mt-10")
+          button(type="button" class="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50")
+            a(href=`/concerts/${concert.id}/edit`) Edit
+          button(type="button" class="inline-flex items-center px-3 py-2 ml-3 text-sm font-semibold text-white bg-red-500 rounded-md shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600")
+            a(href=`/concerts/${concert.id}/delete`) Delete
+  footer(class="bottom-0 w-full px-6 pt-8 pb-8 mx-auto border-t border-gray-900/10 max-w-7xl lg:px-8")
+      p(class="text-xs leading-5 text-gray-500") Website by Lucie YE for ITMD544 at Illinois Tech during Spring 2024

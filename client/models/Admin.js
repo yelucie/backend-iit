@@ -26,7 +26,7 @@ admin.pre('save', async function(next) {
         const user = this;
         if (!user.isModified('password')) return next();
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(this.password, salt);
+        const hashedPassword = bcrypt.hash(this.password, salt);
         user.password = hashedPassword;
         next();
     } catch (error) {

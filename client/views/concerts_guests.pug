@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  div(class="px-6 py-24 bg-white isolate sm:py-32 lg:px-8")
+    div(class="text-center")
+      h2(class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl")= title
+    div(class="max-w-xl mx-auto mt-10 sm:mt-20")
+      if concerts.length > 0
+        ul(class="divide-y divide-gray-100")
+          each val in concerts 
+            li(data-concerts.id=val.id class="relative flex justify-between py-5")
+              div(class="flex pr-6 gap-x-4 sm:w-1/2 sm:flex-none")
+                div(class="flex-auto min-w-0")
+                  p(class="text-sm font-semibold leading-6 text-gray-900") #{val.title}
+  footer(class="bottom-0 w-full px-6 pt-8 pb-8 mx-auto border-t border-gray-900/10 max-w-7xl lg:px-8")
+      p(class="text-xs leading-5 text-gray-500") Website by Lucie YE for ITMD542 at Illinois Tech during Spring 2024

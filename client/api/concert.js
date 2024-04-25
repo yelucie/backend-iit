@@ -21,7 +21,7 @@ const findAllQuery = `
 
 const findByIdQuery = (id) => `
     query Concert {
-        concert(id: ${id}) {
+        concert(id: "${id}") {
             id
             title
             city
@@ -41,11 +41,11 @@ const findByIdQuery = (id) => `
 const createQuery = (concert) => `
     mutation CreateConcert {
         createConcert(
-            title: ${concert.title}
-            city: ${concert.city}
-            date: ${concert.date}
-            price: ${concert.price}
-            artistid: ${concert.artistid}
+            title: "${concert.title}"
+            city: "${concert.city}"
+            date: "${concert.date}"
+            price: "${concert.price}"
+            artistid: "${concert.artistid}"
         ) {
             id
             title
@@ -57,7 +57,7 @@ const createQuery = (concert) => `
 
 const deleteByIdQuery = (id) => `
     mutation DeleteConcert {
-        deleteConcert(id: ${id}) {
+        deleteConcert(id: "${id}") {
             id
             title
             city
@@ -69,12 +69,12 @@ const deleteByIdQuery = (id) => `
 const updateQuery = (concert) => `
     mutation UpdateConcert {
         updateConcert(
-            id: ${concert.id}
-            title: ${concert.title}
-            city: ${concert.city}
-            date: ${concert.date}
-            price: ${concert.price}
-            artistid: ${concert.artistid}
+            id: "${concert.id}"
+            title: "${concert.title}"
+            city: "${concert.city}"
+            date: "${concert.date}"
+            price: "${concert.price}"
+            artistid: "${concert.artistid}"
         ) {
             id
             title
@@ -87,8 +87,8 @@ const updateQuery = (concert) => `
 const addGenreQuery = (concertId, genreId) => `
     mutation AddGenreToConcert {
         addGenreToConcert(
-            concertid: ${concertId}, 
-            genreid: ${genreId}) {
+            concertid: "${concertId}", 
+            genreid: "${genreId}") {
                 concertid
                 genreid
             }
@@ -112,7 +112,6 @@ const api = {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      
       return data.data.concerts;
     } catch (error) {
       throw error;
@@ -149,6 +148,8 @@ const api = {
     }
   },
   deleteById: async (id) => {
+    console.log("deleteById", id);
+    console.log(deleteByIdQuery(id));
     try {
       const response = await fetch(
         graphqlEndpoint,

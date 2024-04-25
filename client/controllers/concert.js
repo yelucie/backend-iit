@@ -42,21 +42,18 @@ exports.concerts_create_post = async function (req, res, next) {
 /* GET a concert */
 exports.concerts_detail = async function (req, res, next) {
   var catFact = "A random cat fact will appear here.";
-
-  await cat.getRandomCatFact().then((catFact) => {
-    catFact = catFact;
-  });
+  catFact = await cat.getRandomCatFact();
 
   await concerts.findById(req.params.uuid).then((concert) => {
     res.render("concert", {
       title: concert.title,
-      concert: concert,
-      catFact: catFact,
+      concert,
+      catFact
     });
   });
 };
 
-/* DELETE concerts delete */
+/* DELETE concerts */
 exports.concerts_delete = async function (req, res, next) {
   await concerts.deleteById(req.params.uuid).then(() => {
     res.redirect("/concerts");

@@ -7,10 +7,12 @@ var mongoose = require('mongoose');
 var jwtAuth = require('./middleware/jwtAuth');
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGODB_URI);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var concertsRouter = require('./routes/concerts');
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -27,6 +29,8 @@ app.use(jwtAuth);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/concerts', concertsRouter);
+app.use('/', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

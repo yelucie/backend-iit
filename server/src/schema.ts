@@ -79,7 +79,7 @@ export const resolvers = {
             return context.prisma.genre.findUnique({
                 where: { id }
             });
-        }
+        },
     },
     Mutation: {
         createArtist: async(_: any, { artistname, }: any) => {

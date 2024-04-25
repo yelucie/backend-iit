@@ -1,14 +1,14 @@
-const fetch = require('node-fetch');
+var axios = require("axios").default;
 
 async function getRandomCatFact() {
-    try {
-        const response = await fetch('https://catfact.ninja/fact');
-        const data = await response.json();
-        return data.fact;
-    } catch (error) {
-        console.error('Error fetching cat fact:', error);
-        return null;
-    }
+  try {
+    const response = await axios.get("https://catfact.ninja/fact");
+    return response.data.fact;
+  }
+  catch (error) {
+    console.error(error);
+    return "Error fetching cat fact";
+  }
 }
 
 module.exports = { getRandomCatFact };

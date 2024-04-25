@@ -21,7 +21,7 @@ router.post('/add', [
 /* GET a concert */
 router.get('/:uuid', controller.concerts_detail);
 
-/* POST concerts delete */
+/* DELETE concerts */
 router.get('/:uuid/delete', controller.concerts_delete);
 
 /* GET concerts edit */
