@@ -21,7 +21,6 @@ router.post("/login", async function (req, res, next) {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: true,
-    maxAge: 24 * 60 * 60 * 1000,
   });
 
   const navigationHistory = req.session.navigationHistory || [];
