@@ -92,7 +92,7 @@ exports.artists_edit_put = async function (req, res, next) {
     return res.redirect("/login");
 
   var updatedArtist = {
-    _id: req.params.uuid,
+    id: req.params.uuid,
     artistname: req.body.artistname,
   };
 
