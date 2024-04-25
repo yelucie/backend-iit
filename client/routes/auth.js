@@ -23,13 +23,22 @@ router.post("/login", async function (req, res, next) {
     secure: true,
     maxAge: 24 * 60 * 60 * 1000,
   });
-  res.send(`Psst, your current token is ${token}`);
+
+  const navigationHistory = req.session.navigationHistory || [];
+  let previousPage = '/';
+  for (let i = navigationHistory.length - 1; i >= 0; i--) {
+    if (navigationHistory[i] !== '/login') {
+      previousPage = navigationHistory[i];
+      break;
+    }
+  }
+  res.redirect(previousPage);
 });
 
 /* GET logout. */
 router.get("/logout", function (req, res, next) {
   res.clearCookie("jwt");
-  res.redirect("/login");
+  res.redirect(req.get("referer"));
 });
 
 /* GET signup form. */
