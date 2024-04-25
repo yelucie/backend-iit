@@ -112,12 +112,12 @@ exports.concerts_edit_put = async function (req, res, next) {
     return res.redirect("/login");
 
   var updatedConcert = {
-    _id: req.params.uuid,
+    id: req.params.uuid,
     title: req.body.title,
     city: req.body.city,
     date: req.body.date,
     price: req.body.price,
-    artist: req.body.artist,
+    artistid: req.body.artist,
   };
 
   const result = validationResult(req);

@@ -133,7 +133,6 @@ const api = {
     }
   },
   create: async (concert) => {
-    console.log(createQuery(concert));
     try {
       const response = await fetch(
         graphqlEndpoint,
@@ -163,7 +162,6 @@ const api = {
     }
   },
   update: async (concert) => {
-    console.log(updateQuery(concert));
     try {
       const response = await fetch(
         graphqlEndpoint,
