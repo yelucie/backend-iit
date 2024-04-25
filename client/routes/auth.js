@@ -16,7 +16,7 @@ router.post("/login", async function (req, res, next) {
   if (!admin) return res.redirect("/login");
 
   const token = jwt.sign({ email: req.body.email }, jwtAccessSecret, {
-    expiresIn: "30m",
+    expiresIn: "15m",
   });
   res.cookie("jwt", token, {
     httpOnly: true,
