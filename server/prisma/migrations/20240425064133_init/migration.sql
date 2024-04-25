@@ -11,10 +11,9 @@ CREATE TABLE "concert" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "title" STRING(255) NOT NULL,
     "city" STRING(100) NOT NULL,
-    "month" STRING(20) NOT NULL,
-    "year" INT8 NOT NULL,
     "price" DECIMAL(10,2) NOT NULL,
     "artistid" UUID NOT NULL,
+    "date" STRING(20) NOT NULL,
 
     CONSTRAINT "concert_pkey" PRIMARY KEY ("id")
 );

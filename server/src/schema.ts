@@ -12,8 +12,7 @@ export const typeDefs = `
         id: ID!
         title: String!
         city: String!
-        month: String!
-        year: Int!
+        date: String!
         price: Float!
         artist: Artist
         genres: [Genre]
@@ -41,7 +40,7 @@ export const typeDefs = `
 
     type Mutation {
         createArtist(artistname: String!): Artist
-        createConcert(title: String!, city: String!, month: String!, year: Int!, price: Float!, artistid: ID!): Concert
+        createConcert(title: String!, city: String!, date: String!, price: Float!, artistid: ID!): Concert
         createGenre(label: String!): Genre
         addGenreToConcert(concertid: String, genreid: String): ConcertGenre
         deleteArtist(id: ID!): Artist
@@ -49,7 +48,7 @@ export const typeDefs = `
         deleteGenre(id: ID!): Genre
         deleteGenreFromConcert(concertid: ID, genreid: ID): ConcertGenre
         updateArtist(id: ID!, artistname: String): Artist
-        updateConcert(id: ID!, title: String, city: String, month: String, year: Int, price: Float, artistid: ID): Concert
+        updateConcert(id: ID!, title: String, city: String, date: String, price: Float, artistid: ID): Concert
         updateGenre(id: ID!, label: String): Genre
         updateGenreFromConcert(concertid: ID!, genreid: ID!): ConcertGenre
     }
@@ -88,13 +87,12 @@ export const resolvers = {
                 data: { artistname, }
             });
         },
-        createConcert: async(_: any, { title, city, month, year, price, artistid }: any) => {
+        createConcert: async(_: any, { title, city, date, price, artistid }: any) => {
             return context.prisma.concert.create({
                 data: {
                     title,
                     city,
-                    month,
-                    year,
+                    date,
                     price,
                     artist: { connect: { id: artistid } }
                 }
@@ -144,14 +142,13 @@ export const resolvers = {
                 data: { artistname }
             });
         },
-        updateConcert: async(_: any, { id, title, city, month, year, price, artistid }: any) => {
+        updateConcert: async(_: any, { id, title, city, date, price, artistid }: any) => {
             return context.prisma.concert.update({
                 where: { id },
                 data: {
                     title,
                     city,
-                    month,
-                    year,
+                    date,
                     price,
                     artist: { connect: { id: artistid } }
                 }

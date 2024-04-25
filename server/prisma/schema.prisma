@@ -18,10 +18,9 @@ model concert {
   id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title        String         @db.String(255)
   city         String         @db.String(100)
-  month        String         @db.String(20)
-  year         BigInt
   price        Decimal        @db.Decimal(10, 2)
   artistid     String         @db.Uuid
+  date         String         @db.String(20)
   artist       artist         @relation(fields: [artistid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   concertgenre concertgenre[]
 }
