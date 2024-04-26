@@ -1,66 +1,30 @@
 var express = require("express");
 var router = express.Router();
-const Admin = require("../models/Admin");
-const jwt = require("jsonwebtoken");
+var { body } = require("express-validator");
+var controller = require("../controllers/auth");
 
-const jwtAccessSecret = process.env.ACCESS_SECRET;
+/* GET login */
+router.get("/login", controller.login_get);
 
-/* GET login form. */
-router.get("/login", function (req, res, next) {
-  res.render("login");
-});
+/* POST login */
+router.post("/login", controller.login_post);
 
-/* POST login form. */
-router.post("/login", async function (req, res, next) {
-  const admin = await Admin.findOne({ email: req.body.email }).exec();
-  if (!admin) return res.redirect("/login");
+/* GET logout */
+router.get("/logout", controller.logout);
 
-  const isPasswordMatch = await admin.matchPassword(req.body.password);
-  if (!isPasswordMatch) return res.redirect("/login");
+/* GET signup */
+router.get("/signup", controller.signup_get);
 
-  const token = jwt.sign({ email: req.body.email }, jwtAccessSecret, {
-    expiresIn: "15m",
-  });
-  res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: true,
-  });
-
-  const navigationHistory = req.session.navigationHistory || [];
-  let previousPage = "/";
-  for (let i = navigationHistory.length - 1; i >= 0; i--) {
-    if (navigationHistory[i] !== "/login") {
-      previousPage = navigationHistory[i];
-      break;
-    }
-  }
-  res.redirect(previousPage);
-});
-
-/* GET logout. */
-router.get("/logout", function (req, res, next) {
-  res.clearCookie("jwt");
-  res.redirect(req.get("referer"));
-});
-
-/* GET signup form. */
-router.get("/signup", function (req, res, next) {
-  res.render("signup");
-});
-
-/* POST signup form. */
-router.post("/signup", async function (req, res, next) {
-  const admin = new Admin({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    password: req.body.password,
-  });
-  let save = await admin.save();
-  req.login(save, function (err) {
-    if (err) return next(err);
-    return res.send("Registered");
-  });
-});
+/* POST signup */
+router.post(
+  "/signup",
+  [
+    body("firstname").isString().isLength({ min: 1, max: 255 }),
+    body("lastname").isString().isLength({ min: 1, max: 255 }),
+    body("email").isEmail().isLength({ min: 1, max: 255 }),
+    body("password").isString().isLength({ min: 1, max: 255 }),
+  ],
+  controller.signup_post
+);
 
 module.exports = router;

@@ -15,9 +15,7 @@ block content
           div(class='mt-2.5')
             input(type='text' name='title' placeholder= concert ? "" : 'Title' value= concert ? concert.title : "" class='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6')
           if msg
-            each val in msg
-              if val.path == 'title'
-                p(class='text-sm text-red-500') #{val.msg}
+            p(class='text-sm text-red-500') #{msg.find(val => val.path == 'title') ? msg.find(val => val.path == 'title').msg : ""}
         div(class='sm:col-span-2')
           label(for="artist", class="block text-sm font-medium leading-6 text-gray-900") Artist
           select#artist(name="artist" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6")
@@ -28,25 +26,19 @@ block content
           div(class='mt-2.5')
             input(type='text' name='city' placeholder= concert ? "" : 'City' value= concert ? concert.city : "" class='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6')
           if msg
-            each val in msg
-              if val.path == 'city'
-                p(class='text-sm text-red-500') #{val.msg}
+            p(class='text-sm text-red-500') #{msg.find(val => val.path == 'city') ? msg.find(val => val.path == 'city').msg : ""}
         div(class='sm:col-span-2')
           label(for='date' class="block text-sm font-semibold leading-6 text-gray-900") Date
           div(class='mt-2.5')
             input(type='text' name='date' placeholder= concert ? "" : 'Date' value= concert ? concert.date : "" class='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6')
           if msg
-            each val in msg
-              if val.path == 'date'
-                p(class='text-sm text-red-500') #{val.msg}
+            p(class='text-sm text-red-500') #{msg.find(val => val.path == 'date') ? msg.find(val => val.path == 'date').msg : ""}
         div(class='sm:col-span-2')
           label(for='price' class="block text-sm font-semibold leading-6 text-gray-900") Price
           div(class='mt-2.5')
             input(type='text' name='price' placeholder= concert ? "" : 'Price' value= concert ? concert.price : "" class='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6')
           if msg
-            each val in msg
-              if val.path == 'price'
-                p(class='text-sm text-red-500') #{val.msg}
+            p(class='text-sm text-red-500') #{msg.find(val => val.path == 'price') ? msg.find(val => val.path == 'price').msg : ""}
       div(class='mt-10')
         button(type='submit' class='block w-full rounded-md bg-emerald-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600') 
           if concert

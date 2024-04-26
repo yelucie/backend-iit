@@ -44,11 +44,15 @@ exports.concerts_create_post = async function (req, res, next) {
 
   const result = validationResult(req);
   if (!result.isEmpty()) {
-    res.render("concerts_input", {
-      title: "Add a new concert",
-      newConcert: true,
-      concert: newConcert,
-      msg: result.array,
+    await artists.findAll().then((artists) => {
+      res.render("concerts_input", {
+        title: "Add a new concert",
+        newConcert: true,
+        concert: newConcert,
+        artists: artists,
+        token: req.cookies.jwt,
+        msg: result.array(),
+      });
     });
   } else {
     await concerts.create(newConcert).then(() => {
@@ -122,12 +126,17 @@ exports.concerts_edit_put = async function (req, res, next) {
 
   const result = validationResult(req);
   if (!result.isEmpty()) {
+    var artistArray = await artists.findAll().then((artists) => {
+      return artists;
+    });
     await concerts.findById(req.params.uuid).then((concert) => {
       res.render("concerts_input", {
         title: `Edit ${concert.title}`,
         newConcert: false,
         concert: concert,
+        artists: artistArray || [],
         msg: result.array(),
+        token: req.cookies.jwt,
       });
     });
   } else {

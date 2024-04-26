@@ -13,7 +13,6 @@ mongoose.connect(process.env.MONGODB_URI);
 var indexRouter = require("./routes/index");
 var concertsRouter = require("./routes/concerts");
 var artistsRouter = require("./routes/artists");
-var aboutRouter = require("./routes/about");
 var auth = require("./routes/auth");
 
 var app = express();
@@ -43,7 +42,6 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 app.use("/concerts", concertsRouter);
-app.use("/about", aboutRouter);
 app.use("/artists", artistsRouter);
 app.use("/", auth);
 

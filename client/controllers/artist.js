@@ -43,6 +43,7 @@ exports.artists_create_post = async function (req, res, next) {
       newArtist: true,
       artist: newArtist,
       msg: result.array,
+      token: req.cookies.jwt
     });
   } else {
     await artists.create(newArtist).then(() => {

@@ -16,16 +16,9 @@ router.post(
     body("title").trim().not().isEmpty().withMessage("Title must not be empty"),
     body("city").trim().not().isEmpty().withMessage("City must not be empty"),
     body("date").trim().not().isEmpty().withMessage("Date must not be empty"),
-    body("price")
-      .trim()
-      .not()
-      .isEmpty()
-      .withMessage("Pricing must not be empty")
-      .isFloat({ decimalSeparator: "." })
-      .withMessage("Please enter a valid float number for pricing: 12.34"),
-  ],
-  controller.concerts_create_post
-);
+    body("price").trim().not().isEmpty().withMessage("Pricing must not be empty")
+      .isFloat({ decimalSeparator: "." }).withMessage("Please enter a valid float number for pricing: 12.34"),
+  ],controller.concerts_create_post);
 
 /* GET a concert */
 router.get("/:uuid", controller.concerts_detail);
