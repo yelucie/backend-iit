@@ -23,8 +23,9 @@ block content
               option(value=artist.id)= artist.artistname
         div(class='sm:col-span-2')
           label(for='city' class="block text-sm font-semibold leading-6 text-gray-900") City
-          div(class='mt-2.5')
-            input(type='text' name='city' placeholder= concert ? "" : 'City' value= concert ? concert.city : "" class='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6')
+          select#artist(name="city" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6")
+            each city in cities
+              option(value=city.id)= city
           if msg
             p(class='text-sm text-red-500') #{msg.find(val => val.path == 'city') ? msg.find(val => val.path == 'city').msg : ""}
         div(class='sm:col-span-2')

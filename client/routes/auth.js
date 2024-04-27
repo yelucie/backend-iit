@@ -19,10 +19,8 @@ router.get("/signup", controller.signup_get);
 router.post(
   "/signup",
   [
-    body("firstname").isString().isLength({ min: 1, max: 255 }),
-    body("lastname").isString().isLength({ min: 1, max: 255 }),
-    body("email").isEmail().isLength({ min: 1, max: 255 }),
-    body("password").isString().isLength({ min: 1, max: 255 }),
+    body("firstname").trim().not().isEmpty().withMessage("First name must not be empty"),
+    body("lastname").trim().not().isEmpty().withMessage("Last name must not be empty"),
   ],
   controller.signup_post
 );

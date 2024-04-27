@@ -6,6 +6,7 @@ const jwtAccessSecret = process.env.ACCESS_SECRET;
 
 /* GET login form. */
 exports.login_get = async function (req, res, next) {
+  if(req.cookies.jwt) redirect(res, req, next);
   const msg = req.session.message;
   req.session.message = null;
   console.log(msg);
@@ -34,7 +35,7 @@ exports.login_post = async function (req, res, next) {
     secure: true,
   });
 
-  redirect();
+  redirect(req, res, next);
 };
 
 /* GET logout. */
@@ -45,6 +46,7 @@ exports.logout = function (req, res, next) {
 
 /* GET signup form. */
 exports.signup_get = function (req, res, next) {
+  if(req.cookies.jwt) return redirect(res, req, next);
   res.render("signup");
 };
 
@@ -59,16 +61,22 @@ exports.signup_post = async function (req, res, next) {
 
   const result = validationResult(req);
   if (!result.isEmpty()) {
+    console.log(result.array());
     res.render("signup", {
       admin: admin,
       msg: result.array(),
     });
   } else {
-    let save = await admin.save();
-    req.login(save, function (err) {
-      if (err) return next(err);
-      redirect();
+    await Admin.create(admin);
+    const token = jwt.sign({ email: req.body.email }, jwtAccessSecret, {
+      expiresIn: "15m",
     });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: true,
+    });
+
+    redirect(req, res, next);
   }
 };
 
@@ -76,7 +84,7 @@ redirect = function (req, res, next) {
   const navigationHistory = req.session.navigationHistory || [];
   let previousPage = "/";
   for (let i = navigationHistory.length - 1; i >= 0; i--) {
-    if (navigationHistory[i] !== "/login") {
+    if (navigationHistory[i] !== "/login" && navigationHistory[i] !== "/signup") {
       previousPage = navigationHistory[i];
       break;
     }

@@ -1,7 +1,8 @@
 const { validationResult } = require("express-validator");
 const concerts = require("../api/concert");
 const artists = require("../api/artist");
-const cat = require("../api/cat");
+const cities = require("../api/city");
+const weather = require("../api/weather");
 
 /* GET concerts listing. */
 exports.concerts_list = async function (req, res, next) {
@@ -16,22 +17,23 @@ exports.concerts_list = async function (req, res, next) {
 
 /* GET concerts add */
 exports.concerts_create_get = async function (req, res, next) {
-  if (req.cookies.jwt === (undefined || null || ""))
-    return res.redirect("/login");
+  if (req.cookies.jwt === (undefined || null || "")) return res.redirect("/login");
+
+  const citiesArray = await cities.getCities();
 
   await artists.findAll().then((artists) => {
     res.render("concerts_input", {
       title: "Add a new concert",
       artists: artists,
       token: req.cookies.jwt,
+      cities: citiesArray,
     });
   });
 };
 
 /* POST concerts add */
 exports.concerts_create_post = async function (req, res, next) {
-  if (req.cookies.jwt === (undefined || null || ""))
-    return res.redirect("/login");
+  if (req.cookies.jwt === (undefined || null || "")) return res.redirect("/login");
 
   var newConcert = {
     title: req.body.title,
@@ -63,17 +65,19 @@ exports.concerts_create_post = async function (req, res, next) {
 
 /* GET a concert */
 exports.concerts_detail = async function (req, res, next) {
-  var catFact = "A random cat fact will appear here.";
-  catFact = await cat.getRandomCatFact();
-
-  await concerts.findById(req.params.uuid).then((concert) => {
-    res.render("concert", {
+  try {
+  const concert = await concerts.findById(req.params.uuid);
+  const weatherForCity = await weather.getWeather(concert.city);
+  res.render("concert", {
       title: concert.title,
       concert,
-      catFact,
       token: req.cookies.jwt,
+      weather: weatherForCity,
     });
-  });
+  }
+  catch (error) {
+    res.status(500).send("Internal Server Error");
+};
 };
 
 /* DELETE concerts */
@@ -88,10 +92,11 @@ exports.concerts_delete = async function (req, res, next) {
 
 /* GET concerts edit */
 exports.concerts_edit_get = async function (req, res, next) {
-  if (req.cookies.jwt == (undefined || null || ""))
-    return res.redirect("/login");
+  if (req.cookies.jwt == (undefined || null || "")) return res.redirect("/login");
 
   try {
+    const countries = await countries.getCountries();
+
     const artistArray = await artists.findAll().then((artists) => {
       return artists;
     });
@@ -104,6 +109,7 @@ exports.concerts_edit_get = async function (req, res, next) {
       concert: concert,
       artists: artistArray || [],
       token: req.cookies.jwt,
+      countries: countries,
     });
   } catch (error) {
     res.status(500).send("Internal Server Error");

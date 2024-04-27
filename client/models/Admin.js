@@ -26,7 +26,7 @@ admin.pre('save', async function(next) {
         const user = this;
         if (!user.isModified('password')) return next();
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = bcrypt.hash(this.password, salt);
+        const hashedPassword = await bcrypt.hash(this.password, salt);
         user.password = hashedPassword;
         next();
     } catch (error) {
@@ -36,12 +36,10 @@ admin.pre('save', async function(next) {
 
 admin.methods.matchPassword = async function (password) {
     try {
-        console.log(password);
-        console.log(this.password);
         return await bcrypt.compare(password, this.password);
     } catch (error) {
         throw new Error(error);
     }
 };
 
-module.exports = mongoose.model('Admin', admin);
+module.exports = mongoose.model('admin', admin);
