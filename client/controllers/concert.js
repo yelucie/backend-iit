@@ -92,10 +92,11 @@ exports.concerts_delete = async function (req, res, next) {
 
 /* GET concerts edit */
 exports.concerts_edit_get = async function (req, res, next) {
+  console.log(req);
   if (req.cookies.jwt == (undefined || null || "")) return res.redirect("/login");
 
   try {
-    const countries = await countries.getCountries();
+    const citiesArray = await cities.getCities();
 
     const artistArray = await artists.findAll().then((artists) => {
       return artists;
@@ -109,7 +110,7 @@ exports.concerts_edit_get = async function (req, res, next) {
       concert: concert,
       artists: artistArray || [],
       token: req.cookies.jwt,
-      countries: countries,
+      cities: citiesArray,
     });
   } catch (error) {
     res.status(500).send("Internal Server Error");
